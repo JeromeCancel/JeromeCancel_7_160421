@@ -28,7 +28,7 @@
 							</v-layout>
 							<v-divider inset></v-divider>
 							<v-card-title>
-								<h4>Titre de l'article</h4>
+								<h4>{{ post.title }}</h4>
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="400" height="150"></v-img>
@@ -81,7 +81,7 @@
 								small
 								depressed
 								class="green lighten-1 font-weight-bold mx-3"
-								@click="navigateToComment"
+								@click="navigateToPost(post.id)"
 								>COMMENTER</v-btn
 							>
 						</v-card-actions>
@@ -119,7 +119,7 @@ export default {
 				(v) => v && v.length >= 3,
 			],
 			image: [],
-			posts: [],
+			posts: {},
 			error: null,
 			dialog: false,
 			selectedItem: null,
@@ -129,7 +129,7 @@ export default {
 				{ text: "Mes paramètres", icon: "mdi-folder" },
 			],
 			friends: [{ text: "John Doe" }, { text: "Joe Doe" }],
-			profilId: this.$store.state.user.id,
+			userId: this.$store.state.user.id,
 		};
 	},
 	methods: {
@@ -151,13 +151,13 @@ export default {
 				this.error = error.response.data.error;
 			}
 		},
-		navigateToComment() {
-			this.$router.push("/comment");
+
+		navigateToPost(id) {
+			this.$router.push({ name: "post", params: { id } });
 		},
 	},
 	async mounted() {
 		this.posts = (await PostService.findAllPost()).data;
-		console.log(this.posts);
 	},
 };
 </script>

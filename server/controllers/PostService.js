@@ -32,8 +32,25 @@ const findAllPost =  async  (req, res, next) => {
         }
 };
 
+const findOnePost = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+            const post = await Post.findOne({
+                where: {id: id}
+            })
+            //const postJson = post.toJSON()
+            res.send({
+                post
+            })
+    } catch (error) {
+        res.status(400).send({
+            error: "La requète n'a pas aboutie !"
+        })
+    }
+}
 
 module.exports = {
     createPost,
-    findAllPost
+    findAllPost,
+    findOnePost
 };

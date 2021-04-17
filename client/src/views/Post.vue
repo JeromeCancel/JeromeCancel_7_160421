@@ -3,7 +3,7 @@
 		<v-layout>
 			<Sidebar></Sidebar>
 			<v-col cols="12" md="10" class="grey lighten-3">
-				<v-row class="justify-center my-5">
+				<v-row class="justify-center my-5 post">
 					<v-card>
 						<v-card-text class="py-2">
 							<v-layout class="align-content-center">
@@ -24,7 +24,7 @@
 							</v-layout>
 							<v-divider inset></v-divider>
 							<v-card-title>
-								<h4>Titre de l'article</h4>
+								<h4>{{ post.title }}</h4>
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="950" height="500"></v-img>
@@ -153,6 +153,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar/Sidebar";
+import PostService from "../services/PostService";
 
 export default {
 	name: "Comment",
@@ -171,12 +172,19 @@ export default {
 					content: "Un  second test de content pour remplir le commentaire",
 				},
 			],
+			post: [],
+			error: null,
 		};
 	},
 	methods: {
 		navigateToNews() {
 			this.$router.push("/newsfeed");
 		},
+	},
+	async mounted() {
+		const postId = this.$route.params.id;
+		this.post = (await PostService.findOnePost(postId)).data;
+		console.log(this.post);
 	},
 };
 </script>

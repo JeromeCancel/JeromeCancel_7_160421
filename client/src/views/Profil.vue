@@ -59,8 +59,8 @@ export default {
 	},
 	data() {
 		return {
-			//user: [],
-			//error: null,
+			user: {},
+			error: null,
 			profilId: this.$store.state.user.id,
 		};
 	},
@@ -68,10 +68,10 @@ export default {
 		navigateTo() {
 			this.$router.push("/newsfeed");
 		},
-		async deleteUser(profilId) {
+		async deleteUser() {
 			try {
-				console.log(profilId);
-				await UserService.deleteUser(profilId);
+				console.log(this.$store.state.user.id);
+				await UserService.deleteUser(this.$store.state.user.id);
 				this.$store.dispatch("setToken", null);
 				this.$store.dispatch("setUser", null);
 				this.$router.push("/login");
@@ -80,10 +80,10 @@ export default {
 			}
 		},
 	},
-	/*async mounted() {
-		//const userId = this.profilId;
-		this.user = (await UserService.getUser(this.profilId)).data;
-	},*/
+	async mounted() {
+		//console.log(this.$store.state.user.id);
+		//this.user = (await UserService.getUser(this.$store.state.user.id)).data;
+	},
 };
 </script>
 

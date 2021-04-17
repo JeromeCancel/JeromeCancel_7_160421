@@ -6,5 +6,8 @@ export default {
     },
     findAllPost () {
         return Api().get('post')
+    },
+    findOnePost(id) {
+        return Api().get(`post/${id}`)
     }
 };

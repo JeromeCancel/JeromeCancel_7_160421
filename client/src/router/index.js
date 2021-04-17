@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Newsfeed from '../views/Newsfeed.vue'
-import Comment from '../views/Comment.vue'
+import Post from '../views/Post.vue'
 import Profil from '../views/Profil.vue'
 
 
@@ -27,9 +27,9 @@ const routes = [
     component: Newsfeed
   },
   {
-    path: '/comment',
-    name: 'comment',
-    component: Comment
+    path: '/post/:id',
+    name: 'post',
+    component: Post
   },
   {
     path: '/profil/',
