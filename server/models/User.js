@@ -12,46 +12,20 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   User.init({
-    columnA: {
-      type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-      field: 'id'
-    },
-    columnB: {
-      type: DataTypes.STRING(100),
-          allowNull: false,
-          unique: true,
-      field: 'email'
-    },
-    columnC: {
-      type: DataTypes.STRING(100),
-          allowNull: false,
-      field: 'password'
-    },
-    columnD: {
-      type: DataTypes.STRING(30),
-          allowNull: false,
-      field: 'firstName'
-    },
-    columnE: {
-      type: DataTypes.STRING(30),
-          allowNull: false,
-      field: 'lastName'
-    },
-    columnF: {
-      type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-      field: 'isAdmin'
-    },
-    columnG: {
-      type: DataTypes.STRING,
-          allowNull: true,
-      field: 'pictureUrl'
-    },
-  },{sequelize});
+
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN,
+    pictureUrl: DataTypes.STRING
+  },
+  {
+    sequelize,
+    modelName: 'User',
+    timestamps: false
+  }
+);
 
   return User;
 };

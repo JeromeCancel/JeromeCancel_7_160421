@@ -34,30 +34,27 @@ module.exports = (sequelize, DataTypes) => {
 
   }
   Like.init({
-    columnA: {
-      type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-      field: 'id'
-    },
-    columnB: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'User',
-        key: 'id',
-        },
-      field: 'userId'
+        key: 'id'
+      }
     },
-    columnC: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Post',
-          key: 'id',
-          },
-        field: 'postId'
-      },
-  },{sequelize});
+    postId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Post',
+        key: 'id'
+      }
+    }
+  },
+  {
+    sequelize,
+    modelName: 'Like',
+    timestamps: false
+  }
+);
 
   return Like;
 };

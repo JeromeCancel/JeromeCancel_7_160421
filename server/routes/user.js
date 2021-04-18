@@ -4,12 +4,15 @@ const router = express.Router();
 
 
 const UserService = require('../controllers/UserService');
+const AuthService = require('../controllers/AuthService');
 const AuthenticationJoi = require('../middlewares/AuthenticationJoi');
 
 
-// CREATE ROUTES FOR AUTENTIFICATION, ADD verifyPassword FOR SIGNUP AND limiter TO THE LOGIN ROUTE //
-router.post('/register', AuthenticationJoi.register, UserService.register);
-router.post('/login', UserService.login);
+// ROUTES FOR AUTHENTICATION //
+router.post('/register', AuthenticationJoi.register, AuthService.register);
+router.post('/login', AuthService.login);
+
+// ROUTES FOR USER MANAGEMENT //
 router.delete('/user/:id', UserService.deleteUser);
 router.put('/user/:id', UserService.updateUser);
 router.get('/user/:id', UserService.getUser);

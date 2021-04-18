@@ -22,47 +22,39 @@ module.exports = (sequelize, DataTypes) => {
         models.Comment.belongsTo(models.User, {
             foreignKey: 'userId',
             as: 'user',
-            onDelete: 'set null',
+            onDelete: 'cascade',
         });
 
         models.Comment.belongsTo(models.Post, {
             foreignKey: 'postId',
             as: 'post',
-            onDelete: 'set null',
+            onDelete: 'cascade',
         });
     }
 
   }
   Comment.init({
-    columnA: {
-      type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-      field: 'id'
-    },
-    columnB: {
-      type: DataTypes.STRING,
-          allowNull: false,
-      field: 'content'
-    },
-    columnC: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
         model: 'User',
-        key: 'id',
-        },
-      field: 'userId'
+        key: 'id'
+      }
     },
-    columnD: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Post',
-          key: 'id',
-          },
-        field: 'postId'
-      },
-  },{sequelize});
+    postId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Post',
+        key: 'id'
+      }
+    },
+    content: DataTypes.TEXT
+  },
+  {
+    sequelize,
+    modelName: 'Comment',
+  }
+);
 
   return Comment;
 };
