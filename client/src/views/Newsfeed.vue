@@ -158,6 +158,7 @@ export default {
 	},
 	async mounted() {
 		this.posts = (await PostService.findAllPost()).data;
+		console.log(this.posts);
 	},
 };
 </script>

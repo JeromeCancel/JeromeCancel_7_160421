@@ -3,29 +3,29 @@
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Comment extends Model {
+  class Like extends Model {
 
     static associate(models) {
 
         models.User.belongsToMany(models.Post, {
-            through: models.Comment,
+            through: models.Like,
             foreignKey: 'userId',
             otherKey: 'postId',
         });
 
         models.Post.belongsToMany(models.User, {
-            through: models.Comment,
+            through: models.Like,
             foreignKey: 'postId',
             otherKey: 'userId',
         });
 
-        models.Comment.belongsTo(models.User, {
+        models.Like.belongsTo(models.User, {
             foreignKey: 'userId',
             as: 'user',
             onDelete: 'set null',
         });
 
-        models.Comment.belongsTo(models.Post, {
+        models.Like.belongsTo(models.Post, {
             foreignKey: 'postId',
             as: 'post',
             onDelete: 'set null',
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
   }
-  Comment.init({
+  Like.init({
     columnA: {
       type: DataTypes.INTEGER,
           allowNull: false,
@@ -42,11 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       field: 'id'
     },
     columnB: {
-      type: DataTypes.STRING,
-          allowNull: false,
-      field: 'content'
-    },
-    columnC: {
       type: DataTypes.INTEGER,
       references: {
         model: 'User',
@@ -54,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       field: 'userId'
     },
-    columnD: {
+    columnC: {
         type: DataTypes.INTEGER,
         references: {
           model: 'Post',
@@ -64,5 +59,5 @@ module.exports = (sequelize, DataTypes) => {
       },
   },{sequelize});
 
-  return Comment;
+  return Like;
 };

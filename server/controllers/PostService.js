@@ -38,9 +38,9 @@ const findOnePost = async (req, res, next) => {
             const post = await Post.findOne({
                 where: {id: id}
             })
-            //const postJson = post.toJSON()
+            const postJson = post.toJSON()
             res.send({
-                post
+                postJson
             })
     } catch (error) {
         res.status(400).send({

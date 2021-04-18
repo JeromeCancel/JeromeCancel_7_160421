@@ -4,7 +4,7 @@
 			<Sidebar></Sidebar>
 			<v-col cols="12" md="10" class="grey lighten-3">
 				<v-row class="justify-center my-5 post">
-					<v-card>
+					<v-card :post="post">
 						<v-card-text class="py-2">
 							<v-layout class="align-content-center">
 								<v-flex xs1>
@@ -24,7 +24,7 @@
 							</v-layout>
 							<v-divider inset></v-divider>
 							<v-card-title>
-								<h4>{{ post.title }}</h4>
+								<h4>{{ post.postJson.title }}</h4>
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="950" height="500"></v-img>
@@ -172,19 +172,33 @@ export default {
 					content: "Un  second test de content pour remplir le commentaire",
 				},
 			],
-			post: [],
+			post: null,
+			likes: [],
 			error: null,
 		};
 	},
-	methods: {
-		navigateToNews() {
-			this.$router.push("/newsfeed");
-		},
+	beforeRouteEnter(to, from, next) {
+		PostService.findOnePost(to.params.id, (err, post) => {
+			next((vm) => vm.setPost(err, post));
+		});
 	},
-	async mounted() {
-		const postId = this.$route.params.id;
-		this.post = (await PostService.findOnePost(postId)).data;
-		console.log(this.post);
+	// when route changes and this component is already rendered,
+	// the logic will be slightly different.
+	beforeRouteUpdate(to, from, next) {
+		this.post = null;
+		PostService.findOnePost(to.params.id, (err, post) => {
+			this.setPost(err, post);
+			next();
+		});
+	},
+	methods: {
+		setPost(err, post) {
+			if (err) {
+				this.error = err.toString();
+			} else {
+				this.post = post;
+			}
+		},
 	},
 };
 </script>
