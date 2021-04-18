@@ -1,5 +1,4 @@
 const models = require('../models');
-//const { User, user } = require ('../models');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -51,9 +50,10 @@ const login = async (req, res) => {
                     error: "Le mot de passe n'est pas valide."
                 })
             }
+            const userJson = user.toJSON()
             res.send({
-                user: user,
-                token: jwtSignUser(user)
+                user: userJson,
+                token: jwtSignUser(userJson)
             })
     } catch (error) {
         res.status(500).send({

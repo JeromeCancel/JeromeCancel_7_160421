@@ -1,13 +1,14 @@
-const { User, user } = require ('../models');
+const models = require('../models');
 
 
 // LOGIC FOR DELETE ONE USER IN THE DB
 const deleteUser = async (req, res) => {
     try {
         const id = req.params.id;
-             await user.destroy({
+            const user =  await models.User.findOne({
                 where: { id: id }
-              })
+            })
+            user.destroy()
             res.send({
                 message: 'Utilisateur supprimé'
             })
@@ -23,7 +24,7 @@ const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
         const userNewDatas = req.body;
-            const user = await User.update(userNewDatas,{
+            const user = await models.User.update(userNewDatas,{
                 where: {id: id}
             })
             const newUser = await User.findOne({
@@ -45,7 +46,7 @@ const updateUser = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const id = req.params.id;
-            const user =  await User.findOne({
+            const user =  await models.User.findOne({
                 where: { id: id }
               })
             const userJson = user.toJSON()

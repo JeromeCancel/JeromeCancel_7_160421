@@ -1,12 +1,17 @@
-const { Post, post } = require('../models');
-const { User, user } = require ('../models');
+const models = require('../models');
 
-
-const createPost = async  (req, res, next) => {
+const createPost = async  (req, res) => {
+    const {userId, body} = req.body
         try {
-            const post = await Post.create({
-                title: req.body.title,
-                content: req.body.content,
+            const id = req.params.id;
+            const user = await models.User.findOne({
+                where: {
+                    id: id
+                }
+            })
+            const post = await models.Post.create({
+                body,
+                userId: user.id
             })
             const postJson = post.toJSON()
             res.send({
@@ -14,14 +19,14 @@ const createPost = async  (req, res, next) => {
             })
         } catch (error) {
             res.status(400).send({
-                error: "Y'a un soucis la !"
+                error: "La requète n'a pas aboutie !"
             })
         }
 };
 
-const findAllPost =  async  (req, res, next) => {
+const findAllPost =  async  (req, res) => {
         try {
-            const posts = await Post.findAll({
+            const posts = await models.Post.findAll({
                 limit: 10
             })
             res.send(posts)
@@ -32,10 +37,10 @@ const findAllPost =  async  (req, res, next) => {
         }
 };
 
-const findOnePost = async (req, res, next) => {
+const findOnePost = async (req, res) => {
     try {
         const id = req.params.id;
-            const post = await Post.findOne({
+            const post = await models.Post.findOne({
                 where: {id: id}
             })
             const postJson = post.toJSON()
