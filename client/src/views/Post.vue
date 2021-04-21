@@ -24,7 +24,7 @@
 							</v-layout>
 							<v-divider inset></v-divider>
 							<v-card-title>
-								<h4>{{ post.postJson.title }}</h4>
+								<h4>{{ post.title }}</h4>
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="950" height="500"></v-img>
@@ -153,7 +153,6 @@
 
 <script>
 import Sidebar from "@/components/Sidebar/Sidebar";
-import PostService from "../services/PostService";
 
 export default {
 	name: "Comment",
@@ -172,32 +171,22 @@ export default {
 					content: "Un  second test de content pour remplir le commentaire",
 				},
 			],
-			post: null,
 			likes: [],
 			error: null,
 		};
 	},
-	beforeRouteEnter(to, from, next) {
-		PostService.findOnePost(to.params.id, (err, post) => {
-			next((vm) => vm.setPost(err, post));
-		});
-	},
-	// when route changes and this component is already rendered,
-	// the logic will be slightly different.
-	beforeRouteUpdate(to, from, next) {
-		this.post = null;
-		PostService.findOnePost(to.params.id, (err, post) => {
-			this.setPost(err, post);
-			next();
-		});
+	computed: {
+		post() {
+			return (
+				this.$store.state.posts.find(
+					(post) => post.id == this.$route.params.id
+				) || {}
+			);
+		},
 	},
 	methods: {
-		setPost(err, post) {
-			if (err) {
-				this.error = err.toString();
-			} else {
-				this.post = post;
-			}
+		navigateToNews() {
+			this.$router.push({ name: "newsfeed" });
 		},
 	},
 };

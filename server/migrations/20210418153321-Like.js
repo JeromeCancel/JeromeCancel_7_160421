@@ -30,6 +30,18 @@ module.exports = {
           },
           onDelete: 'SET NULL'
         },
+        createdAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          allowNull: false,
+          onDelete: 'SET NULL'
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          allowNull: false,
+          onDelete: 'SET NULL'
+        },
       });
   },
 

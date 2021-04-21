@@ -23,7 +23,8 @@ const register = async (req, res) => {
         const userJson = user.toJSON()
         res.status(201).send({
             user: userJson,
-            token: jwtSignUser(userJson)
+            token: jwtSignUser(userJson),
+            isAdmin: userJson.isAdmin
         });
     } catch (error) {
         return res.status(500).send({ error: error.message })
@@ -53,7 +54,8 @@ const login = async (req, res) => {
             const userJson = user.toJSON()
             res.send({
                 user: userJson,
-                token: jwtSignUser(userJson)
+                token: jwtSignUser(userJson),
+                isAdmin: userJson.isAdmin
             })
     } catch (error) {
         res.status(500).send({

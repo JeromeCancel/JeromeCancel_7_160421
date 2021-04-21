@@ -81,7 +81,7 @@
 								small
 								depressed
 								class="green lighten-1 font-weight-bold mx-3"
-								@click="navigateToPost(post.id)"
+								@click="$router.push({ name: 'post', params: { id: post.id } })"
 								>COMMENTER</v-btn
 							>
 						</v-card-actions>
@@ -119,7 +119,6 @@ export default {
 				(v) => v && v.length >= 3,
 			],
 			image: [],
-			posts: {},
 			error: null,
 			dialog: false,
 			selectedItem: null,
@@ -129,8 +128,12 @@ export default {
 				{ text: "Mes paramètres", icon: "mdi-folder" },
 			],
 			friends: [{ text: "John Doe" }, { text: "Joe Doe" }],
-			userId: this.$store.state.user.id,
 		};
+	},
+	computed: {
+		posts() {
+			return this.$store.state.posts;
+		},
 	},
 	methods: {
 		validate() {
@@ -151,14 +154,6 @@ export default {
 				this.error = error.response.data.error;
 			}
 		},
-
-		navigateToPost(id) {
-			this.$router.push({ name: "post", params: { id } });
-		},
-	},
-	async mounted() {
-		this.posts = (await PostService.findAllPost()).data;
-		console.log(this.posts);
 	},
 };
 </script>

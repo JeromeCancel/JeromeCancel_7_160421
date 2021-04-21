@@ -11,37 +11,50 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
         userId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
           references: {
             model: 'Users',
             key: 'id'
           },
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
         content: {
           type: Sequelize.TEXT,
           allowNull: true,
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
         imageUrl: {
           type: Sequelize.STRING,
           allowNull: true,
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
         videoUrl: {
           type: Sequelize.STRING,
           allowNull: true,
-          onDelete: 'CASCADE'
+          onDelete: 'SET NULL'
         },
+        createdAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          allowNull: false,
+          onDelete: 'SET NULL'
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          allowNull: false,
+          onDelete: 'SET NULL'
+        },
+
       });
   },
 

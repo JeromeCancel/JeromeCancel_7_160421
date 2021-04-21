@@ -29,7 +29,8 @@ const routes = [
   {
     path: '/post/:id',
     name: 'post',
-    component: Post
+    component: Post,
+    params: true
   },
   {
     path: '/profil/',
