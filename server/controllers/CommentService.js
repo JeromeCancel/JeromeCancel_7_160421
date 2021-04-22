@@ -1,3 +1,4 @@
+const db = require('../models');
 const models = require('../models');
 
 const createComment = async  (req, res) => {
@@ -35,8 +36,12 @@ const createComment = async  (req, res) => {
 
 const findAllComment =  async  (req, res) => {
     try {
+
         const comments = await models.Comment.findAll({
-            limit: 10
+            order: [['createdAt', 'DESC']],
+            includes: [{
+                model: models.Post
+            }]
         })
         if(comments) {
             res.send({
@@ -45,7 +50,7 @@ const findAllComment =  async  (req, res) => {
         }
         else {
             res.status(400).send({
-                message: "Aucun post trouvé"
+                message: "Aucun commentaire trouvé"
             })
         }
     } catch (error) {

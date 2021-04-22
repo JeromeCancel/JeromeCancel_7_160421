@@ -1,6 +1,7 @@
 'use strict';
 
 const {Model} = require('sequelize');
+const Moment = require('moment')
 
 module.exports = (sequelize, DataTypes) => {
   class Like extends Model {
@@ -48,8 +49,18 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    createdAt:{
+      type: DataTypes.DATE,
+      get: function() {
+        return Moment (this.getDataValue("date")).format("YYYY-MM-DD HH:mm:ss")
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() {
+        return Moment (this.getDataValue("date")).format("YYYY-MM-DD HH:mm:ss")
+      }
+    }
   },
   {
     sequelize,

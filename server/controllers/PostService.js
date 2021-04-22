@@ -1,21 +1,23 @@
 const models = require('../models');
 
 const createPost = async  (req, res) => {
-    const {userId, body} = req.body
+    const {userId, title, content} = req.body
         try {
-            const id = req.params.id;
-            const user = await models.User.findOne({
+            const userId = req.body.userId;
+            const title = req.body.title;
+            const content = req.body.content
+            /*const user = await models.User.findOne({
                 where: {
-                    id: id
+                    id: userId
                 }
-            })
+            })*/
             const post = await models.Post.create({
-                body,
-                userId: user.id
+                title: title,
+                content: content,
+                userId: userId
             })
-            const postJson = post.toJSON()
             res.send({
-                post: postJson
+                post
             })
         } catch (error) {
             res.status(400).send({
@@ -26,16 +28,33 @@ const createPost = async  (req, res) => {
 
 const findAllPost =  async  (req, res) => {
         try {
+            
             const posts = await models.Post.findAll({
-                limit: 10
+                limit: 10,
+                order: [['createdAt', 'DESC']],
+                include: [{
+                    model: models.User,
+                    attributes: ["firstName", "lastName"]
+                },
+                {
+                    model: models.Comment,
+                    attributes: ["content", "id", "userId", "postId"]
+                },
+                /*{
+                    model: models.Like,
+                    attributes: ["like"]
+                }*/
+            ],
+                //raw:true,
+                //nest:true
             })
             if(posts) {
-                res.send({
+                res.status(200).send({
                     posts
                 })
             }
             else {
-                res.status(400).send({
+                res.status(404).send({
                     message: "Aucun post trouvé"
                 })
             }

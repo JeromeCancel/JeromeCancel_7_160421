@@ -11,42 +11,45 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
         userId: {
           type: Sequelize.INTEGER,
-          allowNull: true,
+          allowNull: false,
           references: {
             model: 'Users',
             key: 'id'
           },
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
         postId: {
           type: Sequelize.INTEGER,
-          allowNull: true,
+          allowNull: false,
           references: {
             model: 'Posts',
             key: 'id'
           },
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
         content: {
           type: Sequelize.TEXT,
           allowNull: false,
-          onDelete: 'SET NULL'
+          validate: {
+            len: [3, 250]
+          },
+          onDelete: 'CASCADE'
         },
         createdAt: {
           type: Sequelize.DATE,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
           allowNull: false,
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
         updatedAt: {
           type: Sequelize.DATE,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
           allowNull: false,
-          onDelete: 'SET NULL'
+          onDelete: 'CASCADE'
         },
 
 

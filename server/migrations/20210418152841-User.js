@@ -11,39 +11,44 @@ module.exports = {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          onDelete: 'CASCADE'
         },
         email: {
           type: Sequelize.STRING(100),
           allowNull: false,
           unique: true,
-          onDelete: 'CASCADE'
+          validate: {
+            isEmail: true
+          }
         },
         password: {
           type: Sequelize.STRING(100),
           allowNull: false,
-          onDelete: 'CASCADE'
         },
         firstName: {
           type: Sequelize.STRING(30),
           allowNull: false,
-          onDelete: 'CASCADE'
+          validate: {
+            len: [3, 30]
+          }
         },
         lastName: {
           type: Sequelize.STRING(30),
           allowNull: false,
-          onDelete: 'CASCADE'
+          validate: {
+            len: [3, 30]
+          }
         },
         isAdmin: {
           type: Sequelize.BOOLEAN,
           allowNull: false,
           default: false,
-          onDelete: 'CASCADE'
         },
         pictureUrl: {
           type: Sequelize.STRING,
           allowNull: true,
-          onDelete: 'CASCADE'
+          validate: {
+            isUrl: true
+          }
         }
       
       });

@@ -17,7 +17,15 @@ module.exports = {
         firstName: 'Admin',
         lastName: 'Seed',
         isAdmin: true
-     }], {});
+     },
+    {
+        id: '2',
+        email: 'user@seed.com',
+        password: hash,
+        firstName: 'User',
+        lastName: 'Seed',
+        isAdmin: false
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {

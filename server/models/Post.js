@@ -1,6 +1,7 @@
 'use strict';
 
 const {Model} = require('sequelize');
+const Moment = require('moment')
 
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
@@ -23,8 +24,18 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
     videoUrl: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    createdAt:{
+      type: DataTypes.DATE,
+      get: function() {
+        return Moment (this.getDataValue("date")).format("YYYY-MM-DD HH:mm:ss")
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get: function() {
+        return Moment (this.getDataValue("date")).format("YYYY-MM-DD HH:mm:ss")
+      }
+    }
   },
   {
     sequelize, 

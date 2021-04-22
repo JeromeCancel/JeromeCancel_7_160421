@@ -23,7 +23,7 @@
 									<h3>Nom Prénom</h3>
 								</v-flex>
 								<v-flex xs2 d-flex class="align-center">
-									<span class="caption">Publié à :</span>
+									<span class="caption">Publié le: {{ post.createdAt }}</span>
 								</v-flex>
 							</v-layout>
 							<v-divider inset></v-divider>
@@ -32,6 +32,10 @@
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="400" height="150"></v-img>
+						<v-divider></v-divider>
+						<v-card-subtitle>
+							<h4 class="d-block text-truncate">{{ post.content }}</h4>
+						</v-card-subtitle>
 						<v-divider></v-divider>
 						<v-card-actions>
 							<v-tooltip bottom>
@@ -52,29 +56,6 @@
 								<span>Nombre de commentaire</span>
 							</v-tooltip>
 							<span>0</span>
-							<v-spacer></v-spacer>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-btn
-										icon
-										color="orange lighten-1"
-										class="ml-3"
-										v-bind="attrs"
-										v-on="on"
-									>
-										<v-icon dense>mdi-file-edit</v-icon>
-									</v-btn>
-								</template>
-								<span>Modifier l'article</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-btn icon color="red" v-bind="attrs" v-on="on">
-										<v-icon dense>mdi-trash-can</v-icon>
-									</v-btn>
-								</template>
-								<span>Supprimer l'article</span>
-							</v-tooltip>
 							<v-spacer></v-spacer>
 							<v-btn
 								dark
@@ -144,12 +125,11 @@ export default {
 		},
 		async send() {
 			try {
-				const response = await PostService.send({
+				await PostService.send({
 					title: this.title,
 					content: this.content,
+					userId: this.$store.state.user.id,
 				});
-				this.$store.dispatch("setToken", response.data.token);
-				this.$store.dispatch("setUser", response.data.user);
 			} catch (error) {
 				this.error = error.response.data.error;
 			}

@@ -19,7 +19,7 @@
 								</v-flex>
 								<v-spacer></v-spacer>
 								<v-flex xs2 d-flex class="align-center">
-									<span class="caption">Publié à :</span>
+									<span class="caption">Publié le: {{ post.createdAt }}</span>
 								</v-flex>
 							</v-layout>
 							<v-divider inset></v-divider>
@@ -28,6 +28,10 @@
 							</v-card-title>
 						</v-card-text>
 						<v-img src="../assets/Faika.jpeg" width="950" height="500"></v-img>
+						<v-divider></v-divider>
+						<v-card-subtitle>
+							<h4>{{ post.content }}</h4>
+						</v-card-subtitle>
 						<v-divider></v-divider>
 						<v-card-actions>
 							<v-tooltip left>
@@ -49,6 +53,30 @@
 							</v-tooltip>
 							<span>0</span>
 							<v-spacer></v-spacer>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-btn
+										icon
+										color="orange lighten-1"
+										class="ml-3"
+										v-bind="attrs"
+										v-on="on"
+									>
+										<v-icon dense>mdi-file-edit</v-icon>
+									</v-btn>
+								</template>
+								<span>Modifier l'article</span>
+							</v-tooltip>
+							<v-tooltip bottom>
+								<template v-slot:activator="{ on, attrs }">
+									<v-btn icon color="red" v-bind="attrs" v-on="on">
+										<v-icon dense>mdi-trash-can</v-icon>
+									</v-btn>
+								</template>
+								<span>Supprimer l'article</span>
+							</v-tooltip>
+							<v-spacer></v-spacer>
+
 							<v-dialog transition="dialog-bottom-transition" max-width="600">
 								<template v-slot:activator="{ on, attrs }">
 									<v-btn icon color="green lighten-1" v-bind="attrs" v-on="on">
@@ -66,6 +94,7 @@
 													label="Contenu"
 													required
 													auto-grow
+													v-model="content"
 												></v-textarea>
 											</div>
 										</v-card-text>
@@ -96,7 +125,7 @@
 				<v-row
 					class="justify-center mb-5"
 					v-for="comment in comments"
-					:key="comment.name"
+					:key="comment.id"
 				>
 					<v-col cols="1" class="pa-0 d-flex align-center">
 						<div class="text-center">
@@ -110,12 +139,7 @@
 					</v-col>
 					<v-col cols="6" class="pa-0">
 						<v-card flat>
-							<v-card-text
-								>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-								Molestias impedit magni ut? Quisquam porro cupiditate reiciendis
-								dignissimos accusantium eum praesentium laboriosam autem,
-								tenetur expedita commodi a ipsam sequi repudiandae odio.
-							</v-card-text>
+							<v-card-text>{{ comment.content }} </v-card-text>
 							<v-divider></v-divider>
 							<v-card-actions class="justify-space-between">
 								<span class="caption ml-3">Publié à :</span>
@@ -153,6 +177,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar/Sidebar";
+import CommentService from "../services/CommentService";
 
 export default {
 	name: "Comment",
@@ -161,20 +186,16 @@ export default {
 	},
 	data() {
 		return {
-			comments: [
-				{
-					name: "John Doe",
-					content: "Un test de content pour remplir le commentaire",
-				},
-				{
-					name: "Joe Doe",
-					content: "Un  second test de content pour remplir le commentaire",
-				},
-			],
+			comments: [],
 			likes: [],
 			error: null,
+			content: "",
 		};
 	},
+	/*async mounted() {
+		const comments = await CommentService.findAllComment();
+		this.comments = comments.data;
+	},*/
 	computed: {
 		post() {
 			return (
@@ -188,6 +209,24 @@ export default {
 		navigateToNews() {
 			this.$router.push({ name: "newsfeed" });
 		},
+		async loadComment() {
+			const comments = await CommentService.findAllComment();
+			this.comments = comments.data;
+		},
+		async send() {
+			try {
+				await CommentService.send({
+					content: this.content,
+					postId: this.$route.params.id,
+					userId: this.$store.state.user.id,
+				});
+			} catch (error) {
+				this.error = error.response.data.error;
+			}
+		},
+	},
+	created() {
+		this.loadComment();
 	},
 };
 </script>
