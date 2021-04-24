@@ -41,9 +41,6 @@ module.exports = {
         imageUrl: {
           type: Sequelize.STRING,
           allowNull: true,
-          validate: {
-            isUrl: true
-          },
           onDelete: 'CASCADE'
         },
         videoUrl: {

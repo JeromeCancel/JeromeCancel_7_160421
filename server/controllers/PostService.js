@@ -34,7 +34,8 @@ const findAllPost =  async  (req, res) => {
                 order: [['createdAt', 'DESC']],
                 include: [{
                     model: models.User,
-                    attributes: ["firstName", "lastName"]
+                    attributes: ["firstName", "lastName", "id"],
+                    //where: {id: models.Post.userId} id undefined return an array user 
                 },
                 {
                     model: models.Comment,
@@ -45,8 +46,7 @@ const findAllPost =  async  (req, res) => {
                     attributes: ["like"]
                 }*/
             ],
-                //raw:true,
-                //nest:true
+                nest:true
             })
             if(posts) {
                 res.status(200).send({
